@@ -1,8 +1,4 @@
-# -*- codeing: utf-8 -*-
-# @Time:2018/6/7 19:15
-# @Author:lovemefan
-# @File:abctest.py
-# @Software:PyCharm
+
 # -*- codeing: utf-8 -*-
 # @Time:2018/6/7 19:10
 # @Author:lovemefan

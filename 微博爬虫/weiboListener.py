@@ -9,7 +9,7 @@ import time
 # 打开数据库连接
 from 微博爬虫 import sendEmail
 
-db = pymysql.connect("123.207.13.68", "lovemefan", "Nchu19970208", "weibo", charset='utf8')
+db = pymysql.connect("ip", "账号", "密码", "weibo", charset='utf8')
 # 使用cursor()方法获取操作游标
 cursor = db.cursor()
 

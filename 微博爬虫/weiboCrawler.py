@@ -9,7 +9,7 @@ import requests
 import json
 import pymysql
 # 打开数据库连接
-db = pymysql.connect("123.207.13.68", "li", "123456", "weibo", charset='utf8')
+db = pymysql.connect("ip", "账号", "密码", "weibo", charset='utf8')
 # 使用cursor()方法获取操作游标
 cursor = db.cursor()
 url="https://m.weibo.cn/api/container/getIndex"

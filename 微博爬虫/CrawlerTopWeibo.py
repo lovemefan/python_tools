@@ -13,8 +13,8 @@ import smtplib
 
 mailto_list = '450489712@qq.com'
 mail_host = 'smtp.aliyun.com'
-mail_user = 'lovemefan2@aliyun.com'
-mail_pass = 'Nchu19970208'
+mail_user = 'xxxxxx.com'
+mail_pass = 'xxxxxxxx'
 
 def sendmail(conent):
     msg = MIMEText(conent, _subtype='html', _charset='utf-8')
