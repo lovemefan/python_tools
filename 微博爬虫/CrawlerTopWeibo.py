@@ -36,15 +36,15 @@ def sendmail(conent):
 if __name__ == '__main__':
 
     while True:
-        db = pymysql.connect("123.207.13.68", "lovemefan", "Nchu19970208", "weibo", charset='utf8')
-        url = "https://m.weibo.cn/api/container/getIndex"
-        payload = {'type': 'uid', 'value': '5629915400', 'containerid': '1076035629915400'}
-        # 使用cursor()方法获取操作游标
-        cursor = db.cursor()
-        r=requests.post(url,data=payload)
-        raw_text=r.text
-        d=json.loads(raw_text)
         try:
+			db = pymysql.connect("123.207.13.68", "lovemefan", "Nchu19970208", "weibo", charset='utf8')
+			url = "https://m.weibo.cn/api/container/getIndex"
+			payload = {'type': 'uid', 'value': '5629915400', 'containerid': '1076035629915400'}
+			# 使用cursor()方法获取操作游标
+			cursor = db.cursor()
+			r=requests.post(url,data=payload)
+			raw_text=r.text
+			d=json.loads(raw_text)
             for i in range(5):
                 itemid = str(d["data"]["cards"][i]["itemid"])
                 scheme = str(d["data"]["cards"][i]["scheme"])
