@@ -86,19 +86,22 @@ def signEveryday(shed_time):
                 time.sleep(600);
         else:
             # 当前时间与要签到时间不一致
-
-
-            if now.day >= shed_time.day:
-                # 昨日已签到
-                if flag == 1:
-                    shed_time = shed_time + datetime.timedelta(days=1)
-                    flag = 0
+            # 本月签到
+            if now.month == shed_time.month:
+                if now.day >= shed_time.day:
+                    # 昨日已签到
+                    if flag == 1:
+                        shed_time = shed_time + datetime.timedelta(days=1)
+                        flag = 0
+                    else:
+                        # 昨日签到失败
+                        # 一定要休眠,否则将消耗大量cpu资源
+                        print(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S\n") + "昨日签到失败")
                 else:
-                    # 昨日签到失败
-                    # 一定要休眠,否则将消耗大量cpu资源
-                    print(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S\n") + "昨日签到失败")
+                    time.sleep(3600)
+            # 若为下一个月
             else:
-                time.sleep(3600)
+                shed_time = shed_time + datetime.timedelta(days=1)
 
 
 

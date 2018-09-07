@@ -6,7 +6,7 @@
 
 #it之家只需要提交一个get请求即可完成签到
 import datetime
-from time import sleep
+import time
 
 import requests
 def sign():
@@ -16,31 +16,34 @@ def sign():
     print(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S\n") + response.text + '\n\n')
 
 def signEveryday(shed_time):
+    flag = 0
     while True:
-        flag = 0
         now = datetime.datetime.now()
         if now.day == shed_time.day:
             if now.hour == shed_time.hour and flag == 0:
                 sign()
                 flag = 1
-                print(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S\n")+"已签到")
+                print(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S\n") + "已签到")
             else:
-                sleep(600);
+                time.sleep(600);
         else:
             # 当前时间与要签到时间不一致
-
-
-            if now.day >= shed_time.day:
-                # 昨日已签到
-                if flag == 1:
-                    shed_time = shed_time + datetime.timedelta(days=1)
-                    flag = 0
+            # 本月签到
+            if now.month == shed_time.month:
+                if now.day >= shed_time.day:
+                    # 昨日已签到
+                    if flag == 1:
+                        shed_time = shed_time + datetime.timedelta(days=1)
+                        flag = 0
+                    else:
+                        # 昨日签到失败
+                        # 一定要休眠,否则将消耗大量cpu资源
+                        print(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S\n") + "昨日签到失败")
                 else:
-                    # 昨日签到失败
-                    # 一定要休眠,否则将消耗大量cpu资源
-                    print(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S\n")+"昨日签到失败")
+                    time.sleep(3600)
+            # 若为下一个月
             else:
-                sleep(3600)
+                shed_time = shed_time + datetime.timedelta(days=1)
 
 if __name__ == '__main__':
     now = datetime.datetime.now()
