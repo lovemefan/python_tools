@@ -9,7 +9,7 @@ import json
 import requests
 
 url="https://m.weibo.cn/api/container/getIndex"
-payload={'type':'uid','value':'5629915400','containerid':'1076035629915400'}
+payload={'type':'uid','value':'56xxxx00','containerid':'107xxxxx00'}
 
 
 r=requests.post(url,data=payload)

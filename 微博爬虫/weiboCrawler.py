@@ -17,7 +17,7 @@ page = 1
 sum = 0
 for k in range(35):
     # 用户的uid,containerid,以及页数.每页最多为十条记录
-    payload={'type':'uid','value':'5629915400','containerid':'1076035629915400','page': '%d'%page}
+    payload={'type':'uid','value':'562xxxx00','containerid':'10xxxxxxxxxx400','page': '%d'%page}
     r=requests.post(url,data=payload)
     raw_text=r.text
     d=json.loads(raw_text)
