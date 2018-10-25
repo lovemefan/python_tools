@@ -3,6 +3,8 @@
 # @Author:lovemefan
 # @File:CrawlerTopWeibo.py
 # @Software:PyCharm
+import datetime
+
 import requests
 import json
 import pymysql
@@ -10,41 +12,47 @@ import pymysql
 import time
 from email.mime.text import MIMEText
 import smtplib
+import zmail
 
-mailto_list = '450489712@qq.com'
-mail_host = 'smtp.aliyun.com'
-mail_user = 'xxxxxx.com'
-mail_pass = 'xxxxxxxx'
+mailto_list = ['xxxxx2@qq.com','xxxxxxxx@outlook.com']
+mail_host = 'smtp.163.com'
+mail_user = '1xxxxxxxx2@163.com'
+mail_pass = 'xxxxxxxxxxx'
+
 
 def sendmail(conent):
-    msg = MIMEText(conent, _subtype='html', _charset='utf-8')
-    msg['Subject'] ="你的小可爱更新微博了"
-    msg['From'] = 'python 提醒'
-    msg['To'] = mailto_list
-    print(mailto_list)
+    mail = {
+        'subject': '小可爱更新微博了',  
+        'content': conent,  
+    }
+    # 使用你的邮件账户名和密码登录服务器
+    server = zmail.server(mail_user,mail_pass)
+    # 发送邮件
+    server.send_mail(mailto_list, mail)
+
+def my_request(url,payload):
     try:
-        s = smtplib.SMTP()
-        s.connect(mail_host, 25)
-        s.login(mail_user, mail_pass)
-        s.sendmail(mail_user, mailto_list, msg.as_string())
-        s.close()
-        return True
+        return requests.post(url,data=payload)
     except Exception as e:
-        print(str(e))
-        return False
+        print(e)
+        return my_request
 
 if __name__ == '__main__':
 
     while True:
+        db = pymysql.connect("xxxxxxxxx", "xxxxxxx", "xxxxxxx", "xxxxxxxx", charset='utf8')
+        url = "https://m.weibo.cn/api/container/getIndex"
+        payload = {'type': 'uid', 'value': '562xxxxx00', 'containerid': '107xxxxxxxxx400'}
+        # 使用cursor()方法获取操作游标
+        cursor = db.cursor()
+        r=my_request(url,payload)
+        raw_text=r.text
         try:
-			db = pymysql.connect("123.207.13.68", "lovemefan", "Nchu19970208", "weibo", charset='utf8')
-			url = "https://m.weibo.cn/api/container/getIndex"
-			payload = {'type': 'uid', 'value': '5629915400', 'containerid': '1076035629915400'}
-			# 使用cursor()方法获取操作游标
-			cursor = db.cursor()
-			r=requests.post(url,data=payload)
-			raw_text=r.text
-			d=json.loads(raw_text)
+            d=json.loads(raw_text)
+        except:
+            print(raw_text)
+            
+        try:
             for i in range(5):
                 itemid = str(d["data"]["cards"][i]["itemid"])
                 scheme = str(d["data"]["cards"][i]["scheme"])
@@ -75,10 +83,11 @@ if __name__ == '__main__':
                 else:
                     # print(sql)
                     # print(text)
-                    print("没有新动态")
+                    if i == 4:
+                        print(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S\n")+"小公主可爱没有新动态")
         except :
             print("错误")
             pass
         cursor.close()
         db.close()
-        time.sleep(5)
+        time.sleep(10)
